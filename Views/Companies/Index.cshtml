@@ -1,0 +1,124 @@
+﻿@model Proiect_UrsuAlexandra.Models.AgencyViewModels.CompanyIndexData
+@{
+    ViewData["Title"] = "Companies";
+}
+<h2>Companies</h2>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Company Name</th>
+            <th>Adress</th>
+            <th>Jobs</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Companies)
+        {
+            string selectedRow = "";
+            if (item.ID == (int?)ViewData["CopmanyID"])
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Adress)
+                </td>
+
+                <td>
+                    @{
+                        foreach (var job in item.ListedJob)
+                        {
+                            @job.Job.ID @: @job.Job.Title <br />
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-action="Index" asp-route-id="@item.ID">Select</a> |
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.Jobs != null)
+ {
+ <h3>Jobs Listed by Selected Company</h3>
+ <table class="table">
+ <tr>
+ <th style="width:15%"></th>
+ <th style="width:30%">Title</th>
+ <th style="width:9%"> Experience_Required</th>
+ <th style="width:9%">WorkDay_Hours</th>
+ <th style=" width:22%">Location</th>
+ <th style=" width:15%">Salary</th>
+ </tr>
+ </table>
+ @foreach (var item in Model.Jobs)
+ {
+ string selectedRow = "";
+ if (item.ID == (int?)ViewData["JobID"])
+ {
+ selectedRow = "success";
+ }
+ <table class="table">
+ <tr class="@selectedRow">
+ <td style=" width:13%">
+ @Html.ActionLink("Select", "Index", new { jobID = item.ID })
+ </td>
+ <td style=" width:26%">
+ @item.Title
+ </td>
+ <td style=" width:15%">
+ @item.Experience_Required
+ </td>
+ <td style=" width:13%">
+ @item.WorkDay_Hours
+ </td>
+ <td style=" width:19%">
+ @item.Location
+ </td>
+ <td style=" width:15%">
+ @item.Salary
+ </td>
+ </tr>
+ </table>
+ }
+ }
+
+ @if (Model.Applications != null)
+ {
+ <h3>
+ Persons that have applied for the Selected Job
+ </h3>
+ <table class="table">
+ <tr>
+ <th>First Name</th>
+ <th>Last Name</th>
+ <th>Application Date</th>
+ </tr>
+ @foreach (var item in Model.Applications)
+ {
+ <tr>
+ <td>
+ @item.Person.FirstName
+ </td>
+  <td>
+ @item.Person.LastName
+ </td>
+ <td>
+ @Html.DisplayFor(modelItem => item.ApplicationDate)
+ </td>
+ </tr>
+ }
+ </table>
+ }

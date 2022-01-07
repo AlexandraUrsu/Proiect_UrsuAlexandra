@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Proiect_UrsuAlexandra.Models.LibraryViewModels.ApplicationGroup>
+@{
+ ViewData["Title"] = "Job Applications Statistics";
+}
+<h2>Ordered Books Statistics</h2>
+<table>
+ <tr>
+ <th>
+ Application Date
+ </th>
+ 
+ <th>
+ Job applications
+ </th>
+ </tr>
+ @foreach (var item in Model)
+ {
+ <tr>
+ <td>
+ @Html.DisplayFor(modelItem => item.ApplicationDate)
+ </td>
+ 
+ <td>
+ @item.JobCount
+ </td>
+ </tr>
+ }
+</table>
